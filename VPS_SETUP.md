@@ -285,3 +285,12 @@ git pull
 - Frontend: http://31.97.109.207
 - Backend API: http://31.97.109.207/api
 - API Documentation: http://31.97.109.207/api/docs
+- **🔥 Admin Dashboard:** http://31.97.109.207/admin
+
+### 👨‍💼 Admin Dashboard Features:
+- ✅ **Dashboard Overview** dengan statistik lengkap
+- ✅ **Daftar Aplikasi** dengan filter dan pagination
+- ✅ **Detail Aplikasi** dengan informasi lengkap
+- ✅ **Update Status** aplikasi (pending/approved/rejected)
+- ✅ **Quick Actions** (call, email, print)
+- ✅ **Timeline** aktivitas aplikasi
