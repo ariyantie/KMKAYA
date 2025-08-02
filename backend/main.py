@@ -253,3 +253,20 @@ async def get_application_stats():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
+
+# Admin Dashboard Routes
+@app.get("/admin", response_class=HTMLResponse)
+async def admin_dashboard(request: Request):
+    return await get_admin_dashboard(request)
+
+@app.get("/admin/applications", response_class=HTMLResponse) 
+async def admin_applications_list(request: Request, status: Optional[str] = None, page: int = 1):
+    return await get_applications_list(request, status, page)
+
+@app.get("/admin/application/{application_id}", response_class=HTMLResponse)
+async def admin_application_detail(request: Request, application_id: str):
+    return await get_application_detail(request, application_id)
+
+@app.post("/admin/application/{application_id}/status")
+async def admin_update_status(request: Request, application_id: str, status: str = Form(...)):
+    return await update_application_status(request, application_id, status)
