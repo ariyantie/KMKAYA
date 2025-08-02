@@ -1,6 +1,8 @@
-from fastapi import FastAPI, HTTPException, Depends, UploadFile, File, Form
+from fastapi import FastAPI, HTTPException, Depends, UploadFile, File, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, EmailStr
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime, timedelta
@@ -10,6 +12,14 @@ from dotenv import load_dotenv
 import uuid
 import aiofiles
 
+# Import admin dashboard functions
+from admin_dashboard import (
+    get_admin_dashboard, 
+    get_applications_list, 
+    get_application_detail, 
+    update_application_status
+)
+
 load_dotenv()
 
 app = FastAPI(
@@ -17,6 +27,9 @@ app = FastAPI(
     description="API untuk aplikasi pinjaman online KamiKaya",
     version="1.0.0"
 )
+
+# Templates setup
+templates = Jinja2Templates(directory="templates")
 
 # CORS middleware
 app.add_middleware(
