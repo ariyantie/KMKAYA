@@ -455,6 +455,16 @@ curl -I http://31.97.109.207/static/css/main.css
 - **Frontend:** http://31.97.109.207
 - **Backend API:** http://31.97.109.207/api
 - **API Documentation:** http://31.97.109.207/api/docs
+- **🔥 Admin Dashboard:** http://31.97.109.207/admin
+
+### 👨‍💼 Admin Dashboard
+Dashboard admin dilengkapi dengan:
+- **Overview Statistics**: Total aplikasi, pending, approved, rejected
+- **Application Management**: List, filter, dan pagination aplikasi
+- **Status Updates**: Update status aplikasi secara real-time
+- **Detailed Views**: Informasi lengkap setiap aplikasi
+- **Quick Actions**: Call, email, dan print langsung dari dashboard
+- **Document Tracking**: Monitor status upload KTP dan selfie
 
 ---
 
