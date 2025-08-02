@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Aplikasi - KamiKaya Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <a href="/admin" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-blue-600 font-bold text-sm">K</span>
+                        </div>
+                        <span class="font-bold text-xl">KamiKaya Admin</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin" class="text-sm hover:text-blue-200">Dashboard</a>
+                    <a href="/admin/applications" class="text-sm hover:text-blue-200">Aplikasi</a>
+                    <i class="fas fa-user-circle text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Breadcrumb -->
+        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+            <a href="/admin" class="hover:text-blue-600">Dashboard</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="/admin/applications" class="hover:text-blue-600">Aplikasi</a>
+            <i class="fas fa-chevron-right"></i>
+            <span class="text-gray-800">Detail Aplikasi</span>
+        </div>
+
+        <!-- Application Header -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center">
+                        <span class="text-2xl font-bold text-blue-800">{{ application.full_name[0].upper() }}</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">{{ application.full_name }}</h1>
+                        <p class="text-gray-600">Aplikasi ID: {{ application._id }}</p>
+                        <p class="text-sm text-gray-500">Diajukan pada {{ application.created_at.strftime('%d %B %Y, %H:%M') }}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    {% if application.status == 'pending' %}
+                        <span class="px-4 py-2 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-800">
+                            <i class="fas fa-clock mr-1"></i> Menunggu Review
+                        </span>
+                    {% elif application.status == 'approved' %}
+                        <span class="px-4 py-2 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                            <i class="fas fa-check mr-1"></i> Disetujui
+                        </span>
+                    {% elif application.status == 'rejected' %}
+                        <span class="px-4 py-2 rounded-full text-sm font-semibold bg-red-100 text-red-800">
+                            <i class="fas fa-times mr-1"></i> Ditolak
+                        </span>
+                    {% else %}
+                        <span class="px-4 py-2 rounded-full text-sm font-semibold bg-blue-100 text-blue-800">
+                            {{ application.status }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Personal Information -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-user mr-2 text-blue-600"></i>
+                        Informasi Pribadi
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">Nama Lengkap</label>
+                            <p class="text-gray-800 font-medium">{{ application.full_name }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">NIK</label>
+                            <p class="text-gray-800 font-medium">{{ application.nik }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">Nomor Telepon</label>
+                            <p class="text-gray-800 font-medium">{{ application.phone }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">Email</label>
+                            <p class="text-gray-800 font-medium">{{ application.email }}</p>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-500">Alamat</label>
+                            <p class="text-gray-800 font-medium">{{ application.address }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Information -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-briefcase mr-2 text-green-600"></i>
+                        Informasi Keuangan
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">Pekerjaan</label>
+                            <p class="text-gray-800 font-medium">
+                                {% if application.occupation == 'karyawan' %}Karyawan Swasta
+                                {% elif application.occupation == 'pns' %}PNS
+                                {% elif application.occupation == 'wiraswasta' %}Wiraswasta
+                                {% elif application.occupation == 'freelancer' %}Freelancer
+                                {% elif application.occupation == 'pensiunan' %}Pensiunan
+                                {% else %}{{ application.occupation }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">Penghasilan per Bulan</label>
+                            <p class="text-gray-800 font-medium">Rp {{ application.income }} Juta</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loan Information -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-money-bill-wave mr-2 text-purple-600"></i>
+                        Informasi Pinjaman
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">Jumlah Pinjaman</label>
+                            <p class="text-2xl font-bold text-purple-600">{{ format_currency(application.loan_amount) }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">Tujuan Pinjaman</label>
+                            <p class="text-gray-800 font-medium">
+                                {% if application.purpose == 'modal_usaha' %}Modal Usaha
+                                {% elif application.purpose == 'renovasi' %}Renovasi Rumah
+                                {% elif application.purpose == 'pendidikan' %}Pendidikan
+                                {% elif application.purpose == 'kesehatan' %}Kesehatan
+                                {% elif application.purpose == 'konsumtif' %}Kebutuhan Konsumtif
+                                {% else %}{{ application.purpose }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Files -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-file-upload mr-2 text-orange-600"></i>
+                        Dokumen yang Diupload
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                            <i class="fas fa-id-card text-3xl text-gray-400 mb-2"></i>
+                            <p class="text-sm font-medium text-gray-700">KTP</p>
+                            {% if application.ktp_file_path %}
+                                <p class="text-xs text-green-600 mt-1">✓ File uploaded</p>
+                                <p class="text-xs text-gray-500">{{ application.ktp_file_path.split('/')[-1] }}</p>
+                            {% else %}
+                                <p class="text-xs text-red-600 mt-1">✗ Tidak ada file</p>
+                            {% endif %}
+                        </div>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                            <i class="fas fa-camera text-3xl text-gray-400 mb-2"></i>
+                            <p class="text-sm font-medium text-gray-700">Foto Selfie</p>
+                            {% if application.selfie_file_path %}
+                                <p class="text-xs text-green-600 mt-1">✓ File uploaded</p>
+                                <p class="text-xs text-gray-500">{{ application.selfie_file_path.split('/')[-1] }}</p>
+                            {% else %}
+                                <p class="text-xs text-red-600 mt-1">✗ Tidak ada file</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Status Update -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Update Status</h3>
+                    <form action="/admin/application/{{ application._id }}/status" method="POST">
+                        <div class="space-y-3">
+                            <label class="flex items-center">
+                                <input type="radio" name="status" value="pending" {% if application.status == 'pending' %}checked{% endif %} class="mr-2">
+                                <span class="text-sm">Menunggu Review</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="status" value="under_review" {% if application.status == 'under_review' %}checked{% endif %} class="mr-2">
+                                <span class="text-sm">Sedang Ditinjau</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="status" value="approved" {% if application.status == 'approved' %}checked{% endif %} class="mr-2">
+                                <span class="text-sm">Disetujui</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="status" value="rejected" {% if application.status == 'rejected' %}checked{% endif %} class="mr-2">
+                                <span class="text-sm">Ditolak</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                            Update Status
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Application Timeline -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Timeline</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-blue-600 rounded-full"></div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-800">Aplikasi Diterima</p>
+                                <p class="text-xs text-gray-500">{{ application.created_at.strftime('%d/%m/%Y %H:%M') }}</p>
+                            </div>
+                        </div>
+                        {% if application.updated_at and application.updated_at != application.created_at %}
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-green-600 rounded-full"></div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-800">Status Diupdate</p>
+                                <p class="text-xs text-gray-500">{{ application.updated_at.strftime('%d/%m/%Y %H:%M') }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Aksi Cepat</h3>
+                    <div class="space-y-2">
+                        <a href="tel:{{ application.phone }}" class="w-full flex items-center justify-center bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-phone mr-2"></i>
+                            Hubungi
+                        </a>
+                        <a href="mailto:{{ application.email }}" class="w-full flex items-center justify-center bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Email
+                        </a>
+                        <button onclick="window.print()" class="w-full flex items-center justify-center bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-print mr-2"></i>
+                            Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
